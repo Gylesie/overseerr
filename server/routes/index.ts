@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import GithubAPI from '../api/github';
+import PushoverAPI from '../api/pushover';
 import TheMovieDb from '../api/themoviedb';
 import type {
   TmdbMovieResult,
@@ -100,6 +101,31 @@ router.get('/settings/public', async (req, res) => {
     return res.status(200).json(settings.fullPublicSettings);
   }
 });
+router.get(
+  '/settings/notifications/pushover/sounds',
+  isAuthenticated(),
+  async (req, res, next) => {
+    const pushoverApi = new PushoverAPI();
+
+    try {
+      if (!req.query.token) {
+        throw new Error('Pushover application token missing from request');
+      }
+
+      const sounds = await pushoverApi.getSounds(req.query.token as string);
+      res.status(200).json(sounds);
+    } catch (e) {
+      logger.debug('Something went wrong retrieving Pushover sounds', {
+        label: 'API',
+        errorMessage: e.message,
+      });
+      return next({
+        status: 500,
+        message: 'Unable to retrieve Pushover sounds.',
+      });
+    }
+  }
+);
 router.use(
   '/settings',
   isAuthenticated(Permission.MANAGE_SETTINGS),
