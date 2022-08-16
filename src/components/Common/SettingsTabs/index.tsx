@@ -138,7 +138,7 @@ const SettingsTabs: React.FC<{
         </div>
       ) : (
         <div className="hide-scrollbar hidden overflow-x-scroll border-b border-gray-600 sm:block">
-          <nav className="flex">
+          <nav className="flex" data-testid="settings-nav-desktop">
             {settingsRoutes
               .filter(
                 (route) =>
