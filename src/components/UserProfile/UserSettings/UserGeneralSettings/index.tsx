@@ -49,9 +49,11 @@ const messages = defineMessages({
   discordIdTip:
     'The <FindDiscordIdLink>multi-digit ID number</FindDiscordIdLink> associated with your Discord user account',
   validationDiscordId: 'You must provide a valid Discord user ID',
+  plexwatchlistsync: 'Plex Watchlist Auto-Request',
+  plexwatchlistsynctip: 'Automatically request Plex watchlist items.',
 });
 
-const UserGeneralSettings: React.FC = () => {
+const UserGeneralSettings = () => {
   const intl = useIntl();
   const { addToast } = useToasts();
   const { locale, setLocale } = useLocale();
@@ -122,6 +124,7 @@ const UserGeneralSettings: React.FC = () => {
           movieQuotaDays: data?.movieQuotaDays,
           tvQuotaLimit: data?.tvQuotaLimit,
           tvQuotaDays: data?.tvQuotaDays,
+          watchlistSync: false,
         }}
         validationSchema={UserGeneralSettingsSchema}
         enableReinitialize
@@ -407,6 +410,24 @@ const UserGeneralSettings: React.FC = () => {
                     </div>
                   </>
                 )}
+              <div className="form-row">
+                <label htmlFor="watchlistSync" className="checkbox-label">
+                  <span>{intl.formatMessage(messages.plexwatchlistsync)}</span>
+                  <span className="label-tip">
+                    {intl.formatMessage(messages.plexwatchlistsynctip)}
+                  </span>
+                </label>
+                <div className="form-input-area">
+                  <Field
+                    type="checkbox"
+                    id="watchlistSync"
+                    name="watchlistSync"
+                    onChange={() => {
+                      setFieldValue('watchlistSync', !values.watchlistSync);
+                    }}
+                  />
+                </div>
+              </div>
               <div className="actions">
                 <div className="flex justify-end">
                   <span className="ml-3 inline-flex rounded-md shadow-sm">
