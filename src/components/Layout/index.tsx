@@ -6,6 +6,7 @@ import type { AvailableLocale } from '../../context/LanguageContext';
 import useLocale from '../../hooks/useLocale';
 import useSettings from '../../hooks/useSettings';
 import { useUser } from '../../hooks/useUser';
+import PullToRefresh from '../PullToRefresh';
 import SearchInput from './SearchInput';
 import Sidebar from './Sidebar';
 import UserDropdown from './UserDropdown';
@@ -89,6 +90,7 @@ const Layout: React.FC = ({ children }) => {
         </div>
 
         <main className="relative top-16 z-0 focus:outline-none" tabIndex={0}>
+          <PullToRefresh />
           <div className="mb-6">
             <div className="max-w-8xl mx-auto px-4">{children}</div>
           </div>
